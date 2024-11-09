@@ -8,6 +8,13 @@ app = FastAPI(
     docs_url="/docs",
 )
 
+api_v1 = FastAPI(
+    title="Fidelity Backend v1",
+    description="Version 1 of the Fidelity Backend API",
+)
+
+app.mount("/v1", api_v1)
+
 
 @app.get("/")
 def health_check() -> dict[str, str]:
