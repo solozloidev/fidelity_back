@@ -1,5 +1,3 @@
-from pprint import pprint
-
 from auth.oauth2 import get_current_user
 from bson import ObjectId
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -16,7 +14,6 @@ projector = {"id": {"$toString": "$_id"}, "role": 1, "_id": 0}
 
 @router.get("/", response_model=list[UserRoleShow], status_code=status.HTTP_200_OK)
 async def get_user_roles(current_user: UserShow = Depends(get_current_user)) -> list[UserRoleShow]:
-    pprint(current_user)
     result = await db.user_roles.find({}, projector).to_list(length=20)
     return result
 
