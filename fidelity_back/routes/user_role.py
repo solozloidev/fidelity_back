@@ -1,5 +1,9 @@
+from pprint import pprint
+
+from auth.oauth2 import get_current_user
 from bson import ObjectId
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
+from schemas.user import UserShow
 from schemas.user_role import UserRoleCreate, UserRoleShow
 
 from fidelity_back.config.database import db
@@ -11,20 +15,22 @@ projector = {"id": {"$toString": "$_id"}, "role": 1, "_id": 0}
 
 
 @router.get("/", response_model=list[UserRoleShow], status_code=status.HTTP_200_OK)
-async def get_user_roles() -> list[UserRoleShow]:
+async def get_user_roles(current_user: UserShow = Depends(get_current_user)) -> list[UserRoleShow]:
+    pprint(current_user)
     result = await db.user_roles.find({}, projector).to_list(length=20)
-
     return result
 
 
 @router.get("/{user_role_id}", response_model=UserRoleShow, status_code=status.HTTP_200_OK)
-async def get_user_role(user_role_id: str) -> UserRoleShow:
+async def get_user_role(user_role_id: str, current_user: UserShow = Depends(get_current_user)) -> UserRoleShow:
     result = await db.user_roles.find_one({"_id": ObjectId(user_role_id)}, projector)
     return result
 
 
 @router.post("/", response_model=UserRoleShow, status_code=status.HTTP_201_CREATED)
-async def create_user_role(new_user_role: UserRoleCreate) -> UserRoleShow:
+async def create_user_role(
+    new_user_role: UserRoleCreate, current_user: UserShow = Depends(get_current_user)
+) -> UserRoleShow:
     check = await db.user_roles.find_one({"role": new_user_role.role})
     if check:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User role already exists")

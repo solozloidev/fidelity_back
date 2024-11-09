@@ -1,5 +1,9 @@
 import uvicorn
+from auth.auth import router as auth_router
 from fastapi import FastAPI
+from routes.timezone import router as timezone_router
+from routes.user import router as user_router
+from routes.user_role import router as user_role_router
 
 app = FastAPI(
     title="Fidelity Backend",
@@ -8,12 +12,18 @@ app = FastAPI(
     docs_url="/docs",
 )
 
+
 api_v1 = FastAPI(
     title="Fidelity Backend v1",
     description="Version 1 of the Fidelity Backend API",
 )
 
 app.mount("/v1", api_v1)
+
+api_v1.include_router(auth_router)
+api_v1.include_router(user_role_router)
+api_v1.include_router(user_router)
+api_v1.include_router(timezone_router)
 
 
 @app.get("/")
