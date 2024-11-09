@@ -37,3 +37,9 @@ class UserShow(BaseModel):
 
 class UserFullShow(UserShow):
     password: str
+
+
+class UserStatusHistoryShow(BaseModel):
+    user: UserShow
+    status: bool
+    change_datetime: datetime
