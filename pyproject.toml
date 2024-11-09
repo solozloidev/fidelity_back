@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "fidelity-back"
+version = "0.1.0"
+description = ""
+authors = ["zloi <solozloidev@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.4"
+pydantic-settings = "^2.6.1"
+uvicorn = "^0.32.0"
+motor = "^3.6.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
