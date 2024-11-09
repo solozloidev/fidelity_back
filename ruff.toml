@@ -1,0 +1,39 @@
+line-length = 120
+indent-width = 4
+target-version = "py312"
+
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".env",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "dist",
+    "node_modules",
+    "venv",
+    "ui",
+    "migrations",
+]
+
+[lint]
+select = ["E", "F", "I", "W", "N", "ANN"]
+ignore = ["ANN101", "E701"]
+fixable = ["ALL"]
+unfixable = []
+
+
+[format]
+quote-style = "double"
